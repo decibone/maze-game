@@ -1,9 +1,13 @@
 extends CharacterBody2D
 
-var speed = 100.0
+var speed = 300.0
 var cell_size = 20
+var can_move = true
 
-func _physics_process(_delta):
+
+func _physics_process(delta):
+	if not can_move:
+		return
 	# Simple movement with arrow keys
 	var direction = Vector2.ZERO
 	
