@@ -1,0 +1,47 @@
+[gd_scene load_steps=2 format=3 uid="uid://udig3gnbahql"]
+
+[ext_resource type="Script" uid="uid://b3loxtqd5yfow" path="res://mainmenu.gd" id="1_cmhrf"]
+
+[node name="Mainmenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1276.0
+offset_bottom = 639.0
+script = ExtResource("1_cmhrf")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1277.0
+offset_bottom = 638.0
+color = Color(0.355437, 0.201302, 0.450443, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Testing Efektivitas Algoritma"
+
+[node name="Astar" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "A*"
+
+[node name="Backtracking" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Backtracking"
+
+[node name="Greedy" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Greedy"
