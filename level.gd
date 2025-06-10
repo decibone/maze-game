@@ -6,8 +6,8 @@ var game_active: bool = true
 var game_completed: bool = false
 
 # Get references to UI elements
-@onready var timer_label = $timer/timerlabel
-@onready var status_label = $timer/status
+@onready var timer_label = $score/timerlabel
+@onready var status_label = $score/status
 @onready var goal = $goal  # Adjust path to match your goal's location
 @onready var player = $Player  # Adjust path to match your player's location
 
