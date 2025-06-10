@@ -7,7 +7,7 @@ func _ready():
 	# Start at a grid-aligned position
 	position = Vector2(30, 30)
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	# Simple movement with arrow keys
 	var direction = Vector2.ZERO
 	

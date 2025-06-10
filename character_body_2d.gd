@@ -1,7 +1,8 @@
+# PathfindingAI.gd
 extends CharacterBody2D
 
 @export var speed: float = 200.0
-@export var tile_size: int = 16
+@export var tile_size: int = 32
 
 var grid: Array = []
 var grid_width: int
@@ -29,6 +30,7 @@ func _ready():
 	GameManager.reset_stats()
 	var _start_time = Time.get_time_dict_from_system()
 	var start_usec = Time.get_unix_time_from_system() * 1000000  # Get microseconds
+	
 	match algorithm_name:
 		"astar":
 			current_path = find_path_astar()
@@ -57,22 +59,72 @@ func setup_grid():
 	var used_rect = tilemap.get_used_rect()
 	grid_width = used_rect.size.x
 	grid_height = used_rect.size.y
+	print("Grid dimensions: ", grid_width, "x", grid_height)
+	print("Used rect: ", used_rect)
 	
 	# Initialize grid
 	grid = []
 	for y in range(grid_height):
 		var row = []
+		var debug_row = ""
 		for x in range(grid_width):
-			var tile_pos = Vector2i(x, y)
+			var tile_pos = Vector2i(x + used_rect.position.x, y + used_rect.position.y)
 			var tile_id = tilemap.get_cell_source_id(0, tile_pos)
-			# Assuming tile_id -1 means empty space, adjust as needed
-			row.append(tile_id == 1)
+			# Debug: print first few rows to understand tile structure
+			if y < 3:
+				debug_row += str(tile_id) + " "
+			
+			# Your maze uses: 0 = walls, 1 = walkable floor, -1 = empty space
+			var is_walkable = (tile_id == 1 or tile_id == -1)  # Both floor tiles and empty space are walkable
+			row.append(is_walkable)
 		grid.append(row)
+		
+		# Print debug info for first few rows
+		if y < 3:
+			print("Row ", y, " tile IDs: ", debug_row)
+			print("Row ", y, " walkable: ", row)
 	
-	# Set start and goal positions (you'll need to adapt this)
-	start_pos = Vector2i(50,50)
-	# You'll need to get the goal position from your maze
-	goal_pos = Vector2i(1205, 565) # Example
+	# Set start and goal positions based on current position
+	var calculated_start = Vector2i(int((global_position.x - used_rect.position.x * tile_size) / tile_size), 
+						 int((global_position.y - used_rect.position.y * tile_size) / tile_size))
+	
+	# Based on your debug output, let's try a position we know is walkable
+	start_pos = Vector2i(2, 2)  # From your debug, this should be walkable
+	
+	print("Calculated start would be: ", calculated_start)
+	print("Using fixed start: ", start_pos)
+	
+	# Try to find goal position - look for a walkable spot near the end
+	goal_pos = Vector2i(3, 3) # Default
+	
+	# Find a better goal position
+	for y in range(grid_height - 1, 0, -1):
+		for x in range(grid_width - 1, 0, -1):
+			if is_valid_position(Vector2i(x, y)):  # If walkable
+				goal_pos = Vector2i(x, y)
+				break
+		if goal_pos != Vector2i(grid_width - 2, grid_height - 2):
+			break
+	
+	print("Start position: ", start_pos)
+	print("Goal position: ", goal_pos)
+	print("Start walkable: ", is_valid_position(start_pos))
+	print("Goal walkable: ", is_valid_position(goal_pos))
+	
+	# Print a small section of the grid around start position
+	print("Grid around start:")
+	for y in range(max(0, start_pos.y - 2), min(grid_height, start_pos.y + 3)):
+		var row_str = ""
+		for x in range(max(0, start_pos.x - 2), min(grid_width, start_pos.x + 3)):
+			if Vector2i(x, y) == start_pos:
+				row_str += "S "
+			elif Vector2i(x, y) == goal_pos:
+				row_str += "G "
+			elif grid[y][x]:
+				row_str += ". "
+			else:
+				row_str += "# "
+		print(row_str)
 
 func _physics_process(delta):
 	if current_path.size() > 0 and path_index < current_path.size():

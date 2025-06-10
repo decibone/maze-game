@@ -9,7 +9,7 @@ var game_completed: bool = false
 @onready var timer_label = $timer/timerlabel
 @onready var status_label = $timer/status
 @onready var goal = $goal  # Adjust path to match your goal's location
-@onready var player = $CharacterBody2D  # Adjust path to match your player's location
+@onready var player = $Player  # Adjust path to match your player's location
 
 func _ready():
 	# Connect goal signal

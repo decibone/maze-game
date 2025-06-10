@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://cacta3e4bkjrm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7xaro"]
+size = Vector2(16, 16)
+
+[node name="enemy" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_7xaro")
+
+[node name="ColorRect" type="ColorRect" parent="CharacterBody2D"]
+offset_right = 16.0
+offset_bottom = 16.0
+color = Color(1, 0, 0, 1)
