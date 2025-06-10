@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1wkhiwvidm5c"]
+
+[ext_resource type="Script" uid="uid://cgqhsxuffml34" path="res://bg.gd" id="1_u52ul"]
+
+[node name="level" type="Node2D"]
+
+[node name="bg" type="Node2D" parent="."]
+script = ExtResource("1_u52ul")
+
+[node name="ColorRect" type="ColorRect" parent="bg"]
+offset_right = 1411.0
+offset_bottom = 762.0
+color = Color(0.0471711, 0.0876423, 0.123633, 1)
